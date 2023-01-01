@@ -2,7 +2,8 @@
   vars_prompt:
 
     #(Backend- Env.variable for MYSQL Databse)
-
+    # Here we are creating varibale when this playbook run it waits for your input, so we paramaterised the playbook 
+    
         - name: os1
           private: no
           prompt: Name the MYSQL container
