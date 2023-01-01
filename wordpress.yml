@@ -1,0 +1,60 @@
+- hosts: all    #( you can change host from all to any desired ip-address of managed node )
+  vars_prompt:
+
+        #(Frontend- Env.variable for Wordpress Databse)
+
+        - name: os2
+          private: no
+          prompt: Name the WORDPRESS container
+
+
+        - name: word_db_usr
+          private: no
+          prompt: Enter username for wordpress
+
+        - name: word_db_pass
+          private: yes
+          prompt: Enter wordpress Password
+
+        - name: word_db_name
+          private: no
+          prompt: Enter MYSQL database name
+
+        - name: word_db_host
+          private: no
+          prompt: Give mysql container name
+
+#--------------------------------------------------------------
+# Create Volume locally 
+# -------------------------------------------------------------
+
+  tasks:
+    - name: Creating Volume, location to check stored data --->  /var/lib/docker/volume 
+      community.docker.docker_volume:
+          name: myvol_2
+   
+
+#----------------------------------------------------------
+# Launch WORDPRESS Docker Container
+#---------------------------------------------------------- 
+
+    - name: Launching a WORDPRESS docker Container
+      community.docker.docker_container:
+          name: "{{os2}}"
+          image: wordpress:latest
+          volumes:
+            - myvo1_2:/var/www/html
+          interactive: yes
+          env:
+            WORDPRESS_DB_USER: "{{word_db_usr}}"
+            WORDPRESS_DB_PASSWORD: "{{word_db_pass}}"
+            WORDPRESS_DB_HOST: "{{word_db_host}}"
+            WORDPRESS_DB_NAME: "{{word_db_name}}"
+          state: started
+          links:
+            - "{{word_db_host}}"
+          ports:
+            - 8085:80
+          restart: "true"
+
+#---------------------------------------------------------------

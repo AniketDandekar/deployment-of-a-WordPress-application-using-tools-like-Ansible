@@ -1,0 +1,74 @@
+- hosts: all       #( you can change host from all to any desired ip-address of managed node )
+  vars_prompt:
+
+    #(Backend- Env.variable for MYSQL Databse)
+
+        - name: os1
+          private: no
+          prompt: Name the MYSQL container
+
+        - name: mysql_usr
+          private: no
+          prompt: Enter MYSQL Username
+
+        - name: mysql_pass
+          private: yes
+          prompt: Enter MYSQL Password
+
+        - name: mysql_rpass
+          private: yes
+          prompt: Enter MYSQL Root Password
+
+        - name: mysql_db
+          private: no
+          prompt: Give Name to MYSQL Database
+
+#--------------------------------------------------------------
+# Create Volume locally 
+# -------------------------------------------------------------
+
+  tasks:
+    - name: Creating Volume, location to check stored data --->  /var/lib/docker/volume 
+      community.docker.docker_volume:
+          name: myvol_1
+        
+#--------------------------------------------------------------
+# Launch MYSQL Docker Container  
+# -------------------------------------------------------------
+
+    - name: Launching a MYSQL docker Container 
+      community.docker.docker_container:
+          name: "{{os1}}"
+          image: mysql:latest
+          restart: true
+          volumes:
+            - myvo1_1:/var/lib/mysql
+          interactive: yes
+          env:
+            MYSQL_USER: "{{mysql_usr}}"
+            MYSQL_PASSWORD: "{{mysql_pass}}"
+            MYSQL_ROOT_PASSWORD: "{{mysql_rpass}}"
+            MYSQL_DATABASE: "{{mysql_db}}"
+          state: started
+          port:
+            8086:8080
+            
+#--------------------------------------------------------------
+
+            
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
