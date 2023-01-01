@@ -2,6 +2,7 @@
   vars_prompt:
 
         #(Frontend- Env.variable for Wordpress Databse)
+        # Here we are creating varibale when this playbook run it waits for your input, so we paramaterised the playbook 
 
         - name: os2
           private: no
