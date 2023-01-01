@@ -1,1 +1,1 @@
-# deployment-of-a-WordPress-application-using-tools-like-Ansible
+# Deployment-of-a-WordPress-application-using-tools-like-Ansible
